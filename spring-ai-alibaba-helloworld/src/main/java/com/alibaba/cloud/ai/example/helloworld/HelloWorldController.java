@@ -34,16 +34,20 @@ import org.springframework.web.bind.annotation.RestController;
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
  */
 @RestController
-@RequestMapping("/helloworld")
-public class HelloworldController {
+@RequestMapping("/hello-world")
+public class HelloWorldController {
 
 	private static final String DEFAULT_PROMPT = "你是一个博学的智能聊天助手，请根据用户提问回答！";
 
+	/**
+	 * 聊天机器人
+	 */
 	private final ChatClient dashScopeChatClient;
 
 	// 也可以使用如下的方式注入 ChatClient
-	 public HelloworldController(ChatClient.Builder chatClientBuilder) {
+	 public HelloWorldController(ChatClient.Builder chatClientBuilder) {
 	  	this.dashScopeChatClient = chatClientBuilder
+				// 默认的系统提示词
 				.defaultSystem(DEFAULT_PROMPT)
 				// TODO
 				 // 实现 Chat Memory 的 Advisor
@@ -78,9 +82,11 @@ public class HelloworldController {
 	 */
 	@GetMapping("/stream/chat")
 	public Flux<String> streamChat(@RequestParam(value = "query", defaultValue = "你好，很高兴认识你，能简单介绍一下自己吗？")String query, HttpServletResponse response) {
-
+		// 预防中文乱码
 		response.setCharacterEncoding("UTF-8");
-		return dashScopeChatClient.prompt(query).stream().content();
+		return dashScopeChatClient.prompt(query)
+				.stream()
+				.content();
 	}
 
 	/**
