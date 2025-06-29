@@ -47,7 +47,7 @@
 		<spring-ai-alibaba.version>1.0.0.2</spring-ai-alibaba.version>
 
 		<!-- Spring Boot -->
-		<spring-boot.version>3.4.0</spring-boot.version>
+		<spring-boot.version>3.4.7</spring-boot.version>
 
 		<!-- maven plugin -->
 		<maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
