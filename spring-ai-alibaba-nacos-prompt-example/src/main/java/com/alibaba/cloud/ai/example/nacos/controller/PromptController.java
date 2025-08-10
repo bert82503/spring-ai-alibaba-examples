@@ -20,7 +20,6 @@ import java.util.Map;
 
 import com.alibaba.cloud.ai.prompt.ConfigurablePromptTemplate;
 import com.alibaba.cloud.ai.prompt.ConfigurablePromptTemplateFactory;
-import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import reactor.core.publisher.Flux;
 
@@ -57,13 +56,8 @@ public class PromptController {
 
     @GetMapping("/books")
     public Flux<String> generateJoke(
-            @RequestParam(value = "author", required = false, defaultValue = "鲁迅") String authorName,
-            HttpServletResponse response
+            @RequestParam(value = "author", required = false, defaultValue = "鲁迅") String authorName
     ) {
-
-        // 防止输出乱码
-        response.setCharacterEncoding("UTF-8");
-
         // 使用 nacos 的 prompt tmpl 创建 prompt
         ConfigurablePromptTemplate template = promptTemplateFactory.create(
                 "author",
