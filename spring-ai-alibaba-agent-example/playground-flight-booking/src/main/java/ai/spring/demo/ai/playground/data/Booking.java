@@ -2,22 +2,46 @@ package ai.spring.demo.ai.playground.data;
 
 import java.time.LocalDate;
 
+/**
+ * 机票预定详细信息
+ */
 public class Booking {
 
+	/**
+	 * 预定号
+	 */
 	private String bookingNumber;
 
 	private LocalDate date;
 
+	/**
+	 * 出行日期
+	 */
 	private LocalDate bookingTo;
 
+	/**
+	 * 客户信息
+	 */
 	private Customer customer;
 
+	/**
+	 * 出发地
+	 */
 	private String from;
 
+	/**
+	 * 目的地
+	 */
 	private String to;
 
+	/**
+	 * 航班状态
+	 */
 	private BookingStatus bookingStatus;
 
+	/**
+	 * 座位等级
+	 */
 	private BookingClass bookingClass;
 
 	public Booking(String bookingNumber, LocalDate date, Customer customer, BookingStatus bookingStatus, String from,

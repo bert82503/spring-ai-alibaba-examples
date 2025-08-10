@@ -3,10 +3,19 @@ package ai.spring.demo.ai.playground.data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 机票预定数据
+ */
 public class BookingData {
 
+	/**
+	 * 客户信息的列表
+	 */
 	private List<Customer> customers = new ArrayList<>();
 
+	/**
+	 * 机票预定详细信息的列表
+	 */
 	private List<Booking> bookings = new ArrayList<>();
 
 	public List<Customer> getCustomers() {

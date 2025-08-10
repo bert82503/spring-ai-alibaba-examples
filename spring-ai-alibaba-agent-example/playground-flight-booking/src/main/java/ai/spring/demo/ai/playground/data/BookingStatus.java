@@ -1,7 +1,7 @@
 package ai.spring.demo.ai.playground.data;
 
 /**
- * 预定状态
+ * 航班状态
  */
 public enum BookingStatus {
 
