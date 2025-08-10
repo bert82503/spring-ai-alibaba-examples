@@ -9,19 +9,31 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.core.NestedExceptionUtils;
 
+/**
+ * 机票预定的工具调用
+ */
 @Configuration
 public class BookingTools {
 
 	private static final Logger logger = LoggerFactory.getLogger(BookingTools.class);
 
-	@Autowired
-	private FlightBookingService flightBookingService;
+	/**
+	 * 航班预定系统
+	 */
+	private final FlightBookingService flightBookingService;
+
+    public BookingTools(
+			FlightBookingService flightBookingService
+	) {
+        this.flightBookingService = flightBookingService;
+    }
+
+    // 请求的输入
 
 	public record BookingDetailsRequest(String bookingNumber, String name) {
 	}
@@ -37,10 +49,12 @@ public class BookingTools {
 			String from, String to, String bookingClass) {
 	}
 
+	// 工具调用的函数
+
 	/**
 	 * 通过 @Bean + Function<...> 注册为可被模型调用的函数
 	 * 并与具体业务实现类进行解耦
-	 * @return
+	 * @return 机票预定详细信息
 	 */
 	@Bean
 	@Description("获取机票预定详细信息")
