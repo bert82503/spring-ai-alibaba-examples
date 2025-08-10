@@ -28,6 +28,12 @@ spring:
     password: nacos
 
   ai:
+    # OllamaConnectionProperties, OllamaApiAutoConfiguration
+    ollama:
+      base-url: http://localhost:11434
+      # OllamaChatProperties, OllamaChatAutoConfiguration
+      chat:
+        model: qwen3:4b
     # 开启 nacos 的 prompt tmpl 监听功能
     nacos:
       prompt:
