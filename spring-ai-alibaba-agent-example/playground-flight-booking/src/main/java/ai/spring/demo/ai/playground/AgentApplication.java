@@ -19,6 +19,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.web.client.RestClient;
 
+/**
+ * 代理应用程序的启动入口。
+ */
 @SpringBootApplication
 public class AgentApplication  {
 
@@ -37,15 +40,16 @@ public class AgentApplication  {
 	) {
 
 		return args -> {
+			// 使用 RAG 增加机票退改签规则
 			// Ingest the document into the vector store
 			/*
-			 * 1、文档读取TextReader 读取 resources/rag/terms-of-service.txt 文件内容
+			 * 1、文档读取 TextReader 读取 resources/rag/terms-of-service.txt 文件内容
 			 * 2、TokenTextSplitter 按token长度切分文本（避免大文本超出模型限制）
 			 * 3、向量化存储 通过 VectorStore.write() 将文本向量存入内存（后续可用于RAG检索）
 			 */
 			vectorStore.write(new TokenTextSplitter().transform(new TextReader(termsOfServiceDocs).read()));
 
-			// 相似性搜索检测
+			// 相似性搜索
 			vectorStore.similaritySearch("Cancelling Bookings").forEach(doc -> {
 				logger.info("Similar Document: {}", doc.getText());
 			});
@@ -61,7 +65,7 @@ public class AgentApplication  {
 	 */
 	@Bean
 	public VectorStore vectorStore(EmbeddingModel embeddingModel) {
-
+		// 基于内存的向量存储
 		return SimpleVectorStore.builder(embeddingModel).build();
 	}
 
@@ -72,6 +76,7 @@ public class AgentApplication  {
 	 */
 	@Bean
 	public ChatMemory chatMemory() {
+		// 多轮对话历史
 		return MessageWindowChatMemory.builder().build();
 	}
 
@@ -84,4 +89,5 @@ public class AgentApplication  {
 	public RestClient.Builder restClientBuilder() {
 		return RestClient.builder();
 	}
+
 }
