@@ -1,6 +1,5 @@
 package ai.spring.demo.ai.playground.client;
 
-
 import ai.spring.demo.ai.playground.services.BookingTools.BookingDetails;
 import ai.spring.demo.ai.playground.services.FlightBookingService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * 预定API
+ */
 @Controller
 @RequestMapping("/")
 public class BookingController {

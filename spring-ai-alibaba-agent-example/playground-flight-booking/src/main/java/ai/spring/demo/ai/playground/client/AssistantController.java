@@ -7,11 +7,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
-
+/**
+ * 助手API
+ */
 @RequestMapping("/api/assistant")
 @RestController
 public class AssistantController {
 
+	/**
+	 * 客户支持助手
+	 */
 	private final CustomerSupportAssistant agent;
 
 	public AssistantController(CustomerSupportAssistant agent) {
