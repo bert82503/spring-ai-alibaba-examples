@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 机票预定数据
+ * 航班预定数据
  */
 public class BookingData {
 

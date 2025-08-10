@@ -19,6 +19,9 @@ import java.util.Random;
 @Service
 public class FlightBookingService {
 
+	/**
+	 * 航班预定数据
+	 */
 	private final BookingData db;
 
 	public FlightBookingService() {
@@ -27,6 +30,8 @@ public class FlightBookingService {
 		initDemoData();
 	}
 
+	private static final Random RANDOM = new Random();
+
 	/**
 	 * 随机生成5条订单放入内存存储
 	 */
@@ -34,20 +39,19 @@ public class FlightBookingService {
 		List<String> names = List.of("云小宝", "李千问", "张百炼", "王通义", "刘魔搭");
 		List<String> airportCodes = List.of("北京", "上海", "广州", "深圳", "杭州", "南京", "青岛", "成都", "武汉", "西安", "重庆", "大连",
 				"天津");
-		Random random = new Random();
 
 		var customers = new ArrayList<Customer>();
 		var bookings = new ArrayList<Booking>();
 
 		for (int i = 0; i < 5; i++) {
 			String name = names.get(i);
-			String from = airportCodes.get(random.nextInt(airportCodes.size()));
-			String to = airportCodes.get(random.nextInt(airportCodes.size()));
-			BookingClass bookingClass = BookingClass.values()[random.nextInt(BookingClass.values().length)];
+			String from = airportCodes.get(RANDOM.nextInt(airportCodes.size()));
+			String to = airportCodes.get(RANDOM.nextInt(airportCodes.size()));
+			BookingClass bookingClass = BookingClass.values()[RANDOM.nextInt(BookingClass.values().length)];
 			Customer customer = new Customer();
 			customer.setName(name);
 
-			LocalDate date = LocalDate.now().plusDays(2 * (i + 1));
+			LocalDate date = LocalDate.now().plusDays(2L * (i + 1));
 
 			Booking booking = new Booking("10" + (i + 1), date, customer, BookingStatus.CONFIRMED, from, to,
 					bookingClass);
