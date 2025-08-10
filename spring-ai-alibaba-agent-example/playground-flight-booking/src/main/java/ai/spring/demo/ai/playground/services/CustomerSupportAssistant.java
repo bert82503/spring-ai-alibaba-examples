@@ -32,7 +32,7 @@ import static org.springframework.ai.chat.client.advisor.vectorstore.VectorStore
 import static org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID;
 
 /**
- * * @author Christian Tzolov
+ * @author Christian Tzolov
  * 模拟的是一个航空公司 Funnair 的客户支持助手，具备：
  * 自然语言交互（ChatClient）
  * 记忆能力（ChatMemory）
@@ -42,12 +42,16 @@ import static org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID;
 @Service
 public class CustomerSupportAssistant {
 
+	/**
+	 * 对话客户端
+	 */
 	private final ChatClient chatClient;
 
 	public CustomerSupportAssistant(ChatClient.Builder modelBuilder, VectorStore vectorStore, ChatMemory chatMemory) {
 
 		// @formatter:off
 		this.chatClient = modelBuilder
+				// 默认的系统消息
 				.defaultSystem("""
 						您是“Funnair”航空公司的客户聊天支持代理。请以友好、乐于助人且愉快的方式来回复。
 						您正在通过在线聊天系统与客户互动。
@@ -63,28 +67,36 @@ public class CustomerSupportAssistant {
 						今天的日期是 {current_date}.
 					""")
 				// 插件组合
+				// 默认的顾问链
 				.defaultAdvisors(
-						PromptChatMemoryAdvisor.builder(chatMemory).build(), // Chat Memory
+						PromptChatMemoryAdvisor.builder(chatMemory).build(), // Chat Memory，对话记忆的提示词
 						// new VectorStoreChatMemoryAdvisor(vectorStore)),
-					
-						new QuestionAnswerAdvisor(vectorStore), // RAG
+
+						new QuestionAnswerAdvisor(vectorStore), // RAG，知识问答
 						// new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()
 						// 	.withFilterExpression("'documentType' == 'terms-of-service' && region in ['EU', 'US']")),
 
 						// logger
 						new SimpleLoggerAdvisor()
-				).defaultToolNames(
+				)
+				// 默认的工具调用的名称列表
+				.defaultToolNames(
 						"getBookingDetails",
 						"changeBooking",
 						"cancelBooking"
-				).build();
+				)
+				.build();
 		// @formatter:on
 	}
+
+	// 对话聊天
 
 	public Flux<String> chat(String chatId, String userMessageContent) {
 
 		return this.chatClient.prompt()
+				// 系统消息
 				.system(s -> s.param("current_date", LocalDate.now().toString()))
+				// 用户消息
 				.user(userMessageContent)
 				.advisors(
 						// 设置advisor参数，
